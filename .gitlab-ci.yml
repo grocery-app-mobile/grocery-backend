@@ -1,0 +1,21 @@
+stages:
+  - deploy
+
+deploy:
+  stage: deploy
+  script:
+    - apt-get update -y
+    - apt-get install -y curl
+    - curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
+    - apt-get install -y nodejs
+    - which ssh-agent || (apt-get update -y && apt-get install openssh-client -y)
+    - eval $(ssh-agent -s)
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add -
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - echo -e "Host *\n\tStrictHostKeyChecking no\n" > ~/.ssh/config
+    - git clone git@gitlab.com:mypay-projects1/mypos-backend.git /var/www/html/pos-backend || (cd /var/www/html/pos-backend && git pull)
+    - cd /var/www/html/pos-backend
+    - npm install
+  only:
+    - main
