@@ -1,25 +1,21 @@
-import Product from '../models/product.model.js';
+import Appointment from '../models/appointment.model.js';
 
 const Service = {
-  create: async (data) => {
-    return await Product.create(data);
+  createAppointment : async (data) => {
+    return await Appointment.create(data);
   },
 
-  getAll: async (query) => {
+  getAppointments : async (query) => {
     const filter = { deleted: false };
     const { limit, page } = query;
 
     const parsedLimit = parseInt(limit);
     const parsedPage = parseInt(page);
 
-    if (query.name) {
-      filter.name = query.name;
+    if (query.customerId) {
+      filter.customerId = query.customerId;
     }
-
-    if (query.shopId) {
-      filter.shopId = query.shopId;
-    }
-
+    
     if (query.startDate || query.endDate) {
       filter.createdAt = {};
       if (query.startDate) {
@@ -36,8 +32,8 @@ const Service = {
     const sortData = { [sortBy]: sortDir };
 
     const [totalCount, result] = await Promise.all([
-      Product.countDocuments(filter),
-      Product.find(filter)
+      Appointment.countDocuments(filter),
+      Appointment.find(filter)
         .sort(sortData)
         .skip(skip)
         .limit(parsedLimit)
@@ -55,18 +51,6 @@ const Service = {
     };
     
   },
-
-  findById: async (id) => {
-    return await Product.findOne({ _id: id, deleted: false });
-  },
-
-  update: async (id, data) => {
-    return await Product.findOneAndUpdate({ _id: id, deleted: false }, data, { new: true });
-  },
-
-  delete: async (id) => {
-    return await Product.findOneAndUpdate({ _id: id }, { deleted: true }, { new: true });
-  }
 
 };
 
