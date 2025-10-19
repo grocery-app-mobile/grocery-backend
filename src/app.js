@@ -9,6 +9,7 @@ import repairOrderRoutes from './routes/repairOrder.routes.js';
 import buyBackRoutes from './routes/buyBack.routes.js';
 import invoiceRoutes from './routes/invoice.routes.js';
 import ticketRoutes from './routes/ticket.routes.js';
+import adminRoutes from './routes/admin.routes.js';
 
 const app = express();
 
@@ -29,6 +30,8 @@ app.use('/api/v1/repairOrder', repairOrderRoutes);
 app.use('/api/v1/buyBack', buyBackRoutes);
 app.use('/api/v1/invoice', invoiceRoutes);
 app.use('/api/v1/support', ticketRoutes);
+
+app.use('/api/v1/admin', adminRoutes);
 
 app.use(errorHandler);
 
