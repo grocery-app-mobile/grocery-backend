@@ -10,6 +10,8 @@ import buyBackRoutes from './routes/buyBack.routes.js';
 import invoiceRoutes from './routes/invoice.routes.js';
 import ticketRoutes from './routes/ticket.routes.js';
 import adminRoutes from './routes/admin.routes.js';
+import sellGadgetRoutes from './routes/sell-gadget.routes.js';
+import claimRoutes from './routes/waranty.routes.js';
 
 const app = express();
 
@@ -27,6 +29,9 @@ app.use('/api/v1/user', userRoutes);
 app.use('/api/v1/customer', customerRoutes);
 app.use('/api/v1/appointment', appointmentRoutes);
 app.use('/api/v1/repairOrder', repairOrderRoutes);
+app.use('/api/v1/gadget', sellGadgetRoutes);
+app.use('/api/v1/warrantyClaims', claimRoutes);
+
 app.use('/api/v1/buyBack', buyBackRoutes);
 app.use('/api/v1/invoice', invoiceRoutes);
 app.use('/api/v1/support', ticketRoutes);
