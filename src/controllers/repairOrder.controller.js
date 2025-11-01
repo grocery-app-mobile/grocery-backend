@@ -5,10 +5,11 @@ import { successResponse, errorResponse } from '../utils/responseHandler.js';
 export const createRepairOrder = async (req, res, next) => {
     try {
 
-        const { error } = createSchema.validate(req.body);
-        if (error) return errorResponse(res, 400, error.details[0].message);
+        // const { error } = createSchema.validate(req.body);
+        // if (error) return errorResponse(res, 400, error.details[0].message);
+        req.body.customerId=req.user.id;
         const create = await RepairService.createRepairOrder(req.body);
-        return successResponse(res, 201, { message: "Successfully created." });
+        return successResponse(res, 201, { message: "Successfully created." ,data:create});
 
     } catch (err) {
         next(err);
