@@ -30,6 +30,14 @@ const Service = {
             filter.role = query.role;
         }
 
+        if (query.email) {
+            filter.email = query.email;
+        }
+
+        if (query.phone) {
+            filter.phone = query.phone;
+        }
+
         if (query.startDate || query.endDate) {
             filter.createdAt = {};
             if (query.startDate) {

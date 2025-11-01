@@ -13,6 +13,7 @@ router.get("/user/findById/:id", authMiddleware, adminUserController.findById);
 router.put("/user/update/:id", authMiddleware, adminUserController.update);
 router.delete("/user/delete/:id", authMiddleware, adminUserController.remove);
 router.get("/user/all", authMiddleware, adminUserController.getAllUsers);
+router.get("/dashboard", authMiddleware, adminUserController.getDashboardData);
 
 router.get("/repair-orders/all", authMiddleware, adminController.getAllRepairOrders);
 router.put("/repair-orders/update/:id", authMiddleware, adminController.updateRepairOrders);

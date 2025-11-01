@@ -7,7 +7,7 @@ export const create = async (req, res, next) => {
 
         const { error } = createSchema.validate(req.body);
         if (error) return errorResponse(res, 400, error.details[0].message);
-        
+
         const create = await UserService.create(req.body);
         return successResponse(res, 201, { message: "Successfully created.", data: create });
 
@@ -65,12 +65,32 @@ export const remove = async (req, res) => {
     return successResponse(res, 200, { message: "Successfully deleted." });
 };
 
+export const getDashboardData = async (req, res) => {
+    const data = {
+        totalActiveRepairs: 34,
+        devicesInTransit: 18,
+        completedRepairsToday: 12,
+        totalEngineersOnline: 8,
+        appointmentsBookedToday: 14,
+        rackUtilization: 78,
+        invoicesGenerated: 9,
+        revenueToday: 45000,
+        pendingApprovals: 5
+    };
+
+    return successResponse(res, 200, { 
+        message: "Successfully fetched dashboard data.", 
+        data 
+    });
+};
+
 const controller = {
     create,
     findById,
     update,
     remove,
-    getAllUsers
+    getAllUsers,
+    getDashboardData
 };
 
 export default controller;
