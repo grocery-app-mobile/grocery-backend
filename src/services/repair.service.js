@@ -1,14 +1,18 @@
-import { createRepairOrder } from '../controllers/repairOrder.controller.js';
 import RepairOrder from '../models/repair-order.model.js';
 
 const Service = {
+
+    findLastOrder: async () => {
+        return RepairOrder.findOne().sort({ createdAt: -1 });
+    },
+
     createRepairOrder: async (data) => {
         return await RepairOrder.create(data);
     },
 
     getRepairOrders: async (query) => {
         const filter = { deleted: false };
-        const { limit, page } = query;
+        const { limit = 10, page = 1 } = query;
 
         const parsedLimit = parseInt(limit);
         const parsedPage = parseInt(page);
@@ -16,6 +20,27 @@ const Service = {
         if (query.customerId) {
             filter.customerId = query.customerId;
         }
+
+        if (query.status) {
+            if (typeof query.status === "string" && query.status.includes(",")) {
+                filter.status = { $in: query.status.split(",") };
+            } else {
+                filter.status = query.status;
+            }
+        }
+
+        if (query.customerId) {
+            filter.customerId = query.customerId;
+        }
+
+        if (query.engineerId) {
+            filter.engineerId = query.engineerId;
+        }
+
+        if (query.qcEngineerId) {
+            filter.qcEngineerId = query.qcEngineerId;
+        }
+
 
         if (query.startDate || query.endDate) {
             filter.createdAt = {};

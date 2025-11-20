@@ -13,14 +13,31 @@ const schema = new mongoose.Schema({
     },
     status: {
         type: String,
-        enum: ["intake", "diagnosis", "quote_sent", "approved", "repairing", "qc", "dispatched"],
-        default: "intake"
+        enum: [
+            "order_incoming_transit",
+            "order_received",
+            "awaiting_response",
+            "engineer_diagnosing",
+            "awaiting_customer_price_approval",
+            "price_approved",
+            "repairing",
+            "awaiting_quality_check",
+            "quality_checking",
+            "quality_checked",
+            "packaging",
+            "order_dispatched",
+            "order_sent"
+        ],
+        default: "order_incoming_transit"
     },
     quote: {
-        amount: Number,
-        approved: { type: Boolean, default: false },
-        approvedAt: Date
+        description: { type: String },
+        approvedAt: Date,
+        approved: { type: Boolean, default: false }
     },
+    rackId: { type: mongoose.Schema.Types.ObjectId, ref: "Rack" },
+    engineerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
+    qcEngineerId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     active: { type: Boolean, default: true },
     deleted: { type: Boolean, default: false },
     createdAt: { type: Number },
