@@ -41,6 +41,9 @@ const Service = {
             filter.qcEngineerId = query.qcEngineerId;
         }
 
+        if (query.orderId) {
+            filter.orderId = query.orderId;
+        }
 
         if (query.startDate || query.endDate) {
             filter.createdAt = {};
