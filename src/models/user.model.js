@@ -20,7 +20,7 @@ const userSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ["engineer", "admin", "customer", "counter_staff"], default: "customer" },
+  role: { type: String, enum: ["engineer", "admin", "customer", "counter_staff",'qc_engineer'], default: "customer" },
   shopId: { type: Object },
   active: { type: Boolean, default: true },
   deleted: { type: Boolean, default: false },
