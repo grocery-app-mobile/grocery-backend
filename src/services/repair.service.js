@@ -1,4 +1,5 @@
 import RepairOrder from '../models/repair-order.model.js';
+import Rack from '../models/rack.model.js';
 
 const Service = {
 
@@ -82,6 +83,14 @@ const Service = {
     },
 
     updateRepairOrder: async (id, data) => {
+
+        if(data?.rackId){
+            const updatedRack = await Rack.findOneAndUpdate(
+                { _id: data.rackId, deleted: false },
+                { $inc: { occupied_slots: 1 } },
+                { new: true }
+            );
+        }
         return await RepairOrder.findOneAndUpdate({ _id: id, deleted: false }, data, { new: true });
     },
 

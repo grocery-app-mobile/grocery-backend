@@ -80,18 +80,20 @@ const Service = {
             filter.customerId = query.customerId;
         }
 
-        if (query.status) {
-            filter.status = query.status;
+        if (query.status == 'remaining') {
+
+            filter.$expr = {
+                $gt: [
+                    { $subtract: ["$total_slots", "$occupied_slots"] },
+                    0
+                ]
+            };
         }
 
         if (query.startDate || query.endDate) {
             filter.createdAt = {};
-            if (query.startDate) {
-                filter.createdAt.$gte = Number(query.startDate);
-            }
-            if (query.endDate) {
-                filter.createdAt.$lte = Number(query.endDate);
-            }
+            if (query.startDate) filter.createdAt.$gte = Number(query.startDate);
+            if (query.endDate) filter.createdAt.$lte = Number(query.endDate);
         }
 
         const skip = (parsedPage - 1) * parsedLimit;
@@ -120,6 +122,7 @@ const Service = {
 
     },
 
+
     createRacks: async (data) => {
         return await Rack.create(data);
     },
@@ -135,7 +138,7 @@ const Service = {
     getSupportById: async (id) => {
         return await SupportTicket.findOne({ _id: id, deleted: false });
     },
-    
+
     getAllSupportTickets: async (query) => {
 
         const filter = { deleted: false };
